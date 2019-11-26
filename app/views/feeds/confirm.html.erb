@@ -1,0 +1,32 @@
+<p>
+  <strong>Title:</strong>
+  <%= @feed.title %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @feed.content %>
+</p>
+
+<p>
+  <strong>Image:</strong>
+  <%= image_tag @feed.image.url %>
+</p>
+
+
+<%= form_for @feed do |f| %>
+    <%= @feed.content %>
+  <%= f.hidden_field :title %>
+  <%= f.hidden_field :content %>
+  <%= f.hidden_field :image %>
+  <%= f.hidden_field :image_cache %>
+    <div class="actions">
+      <%= f.submit '投稿する' %>
+    </div>
+    <%= f.hidden_field :content %>
+
+    <div class="actions">
+      <%= f.submit '投稿画面に戻る', name: 'back' %>
+    </div>
+
+  <% end %>
