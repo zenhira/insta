@@ -6,6 +6,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @favorites = @user.favorites
   end
 
   def new
@@ -45,12 +46,31 @@ class UsersController < ApplicationController
     end
   end
 
+  def followings
+    @user = User.find(params[:id])
+    @followings = @user.followings.page(params[:page])
+    counts(@user)
+  end
+
+  def followers
+    @user = User.find(params[:id])
+    @followers = @user.followers.page(params[:page])
+    counts(@user)
+  end
+
+  def likes
+    @user = User.find(params[:id])
+    # @favposts = @user.favposts.page(params[:page])
+    counts(@user)
+  end
+
   private
     def set_user
       @user = User.find(params[:id])
     end
 
     def user_params
-      params.require(:user).permit(:name, :email, :password, :password_digest)
+      params.require(:user).permit(:name, :email, :password, :password_digest, :user_image, :image_cache)
     end
 end
+

@@ -1,0 +1,11 @@
+<% unless current_user.favorites.blank? %>
+  <%= form_for(current_user.favorites.find_by(feed_id: feed.id), html: { method: :delete }) do |f| %>
+    <%= hidden_field_tag :feed_id, feed.id %>
+    <%= f.submit 'お気に入り登録解除', class: 'btn btn-danger' %>
+  <% end %>
+<% else %>
+  <%= form_for(current_user.favorites.build) do |f| %>
+    <%= hidden_field_tag :feed_id, feed.id %>
+    <%= f.submit 'お気に入り登録', class: 'btn btn-primary' %>
+  <% end %>
+<% end %>

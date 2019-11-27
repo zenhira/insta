@@ -1,3 +1,4 @@
+
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -10,6 +11,14 @@
   <%= @user.email %>
 </p>
 
+<p>
+  <strong>Image:</strong>
+  <%= image_tag @user.user_image.url %>
+</p>
 
-<%#= link_to 'Edit', edit_user_path(@user) %> |
+<%#= link_to 'Edit', edit_users_path(@user) %>
 <%= link_to 'Back', users_path %>
+
+<% @favorites.each do |favorite| %>
+  <%= image_tag favorite.feed.image.url %>
+<% end %>
