@@ -24,7 +24,7 @@ class FeedsController < ApplicationController
     @feed = Feed.new(feed_params)
     @feed.user_id = current_user.id
       if @feed.save
-        ContactMailer.contact_mail(@feed).deliver
+        # ContactMailer.contact_mail(@feed).deliver
         redirect_to root_path, notice: 'Contact was successfully created.'
       else
         render :new
