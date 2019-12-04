@@ -13,7 +13,9 @@
 
 <p>
   <strong>Image:</strong>
+  <% unless @user.user_image.blank? %>
   <%= image_tag @user.user_image.url %>
+  <% end %>
 </p>
 
 <%#= link_to 'Edit', edit_users_path(@user) %>

@@ -32,15 +32,19 @@ class FeedsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @feed.update(feed_params)
-        format.html { redirect_to @feed, notice: 'Feed was successfully updated.' }
-        format.json { render :show, status: :ok, location: @feed }
-      else
-        format.html { render :edit }
-        format.json { render json: @feed.errors, status: :unprocessable_entity }
+      if @user.id == current_user.id
+        respond_to do |format|
+          if @feed.update(feed_params)
+            format.html { redirect_to @feed, notice: 'Feed was successfully updated.' }
+            format.json { render :show, status: :ok, location: @feed }
+          else
+            format.html { render :edit }
+            format.json { render json: @feed.errors, status: :unprocessable_entity }
+          end
       end
-    end
+      else
+        redirect_to root_path
+      end
   end
 
   def destroy
@@ -52,11 +56,11 @@ class FeedsController < ApplicationController
   end
 
   private
-    def set_feed
-      @feed = Feed.find(params[:id])
-    end
+  def set_feed
+    @feed = Feed.find(params[:id])
+  end
 
-    def feed_params
-      params.require(:feed).permit(:title, :content, :image, :image_cache)
-    end
+  def feed_params
+    params.require(:feed).permit(:title, :content, :image, :image_cache)
+  end
 end

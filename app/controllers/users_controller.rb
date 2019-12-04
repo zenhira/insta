@@ -14,6 +14,9 @@ class UsersController < ApplicationController
   end
 
   def edit
+    if @user.id != current_user.id
+      redirect_to users_path
+    end
   end
 
   def create
@@ -27,23 +30,19 @@ class UsersController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { render :show, status: :ok, location: @user }
+      if @user.id == current_user.id
+        respond_to do |format|
+          if @user.update(user_params)
+            format.html { redirect_to @user, notice: 'User was successfully updated.' }
+            format.json { render :show, status: :ok, location: @user }
+          else
+            format.html { render :edit }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          end
+        end
       else
-        format.html { render :edit }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        redirect_to root_path
       end
-    end
-  end
-
-  def destroy
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
-      format.json { head :no_content }
-    end
   end
 
   def followings
@@ -73,4 +72,3 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :email, :password, :password_digest, :user_image, :image_cache)
     end
 end
-
